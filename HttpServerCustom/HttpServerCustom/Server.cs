@@ -1,41 +1,57 @@
-﻿using System.Net;
+﻿using System.Globalization;
+using System.Net;
 using System.Net.Sockets;
 using System.Text;
 
-TcpListener server = new TcpListener(IPAddress.Any, 8888);
 
-try
+var port = 80;
+var url = "www.google.com";
+var response = await SocketSendRecieveAsync(url, port);
+Console.WriteLine(response);
+
+async Task<Socket?> ConnectSocketAsync(string url,  int port)
 {
-   server.Start();
-   Console.WriteLine("Server started. Waiting for the connection");
-
-    while(true)
+    Socket socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+    try
     {
-        var tcpClient = await server.AcceptTcpClientAsync();  //wait for the client
+        await socket.ConnectAsync(url, port);
+        return socket;
     }
+    catch (SocketException ex)
+    {
+        Console.WriteLine(ex.Message);
+        socket.Close();
+    }
+    return socket;
 }
-catch(SocketException ex)
+
+async Task<string> SocketSendRecieveAsync(string url, int port)
 {
-    Console.WriteLine($"Som went wrong... {ex.Message}");
+    using Socket? socket = await ConnectSocketAsync(url, port);
+    if (socket == null)
+    {
+        return $"Can not connect to the this url: {url}";
+    }
+
+    // Отправляем данные 
+    var requestMessage = $"GET / HTTP/1.1\r\nHost: {url}\r\nConnezction: Close\r\n\r\n";
+    var requestMessageBytes = Encoding.UTF8.GetBytes(requestMessage);
+    await socket.SendAsync(requestMessageBytes);
+
+    //Получаем данные 
+
+    int bytes;
+
+    var responseBytes = new byte[512];
+    var builder = new StringBuilder();
+    do
+    {
+        bytes = await socket.ReceiveAsync(responseBytes);
+        string responsePart = Encoding.UTF8.GetString(responseBytes, 0, bytes);
+        builder.Append(responsePart);
+    }
+    while (bytes > 0);
+    return builder.ToString();
 }
-finally
-{
-    server?.Stop();
-}
-
-//static void ProcessClientAsync(TcpClient tcpClient)
-//{
-//    string Html = "<html><body><h1>It works!</h1></body></html>";
-
-//    var response = "HTTP/1.1 200 OK\nContent-type: text/html\nContent-Length:" + Html.Length.ToString() + "\n\n" + Html;
-
-//    var responseBytes = Encoding.UTF8.GetBytes(response);
-
-//    tcpClient.GetStream().Write(responseBytes, 0, responseBytes.Length);
-
-//    tcpClient.Close();
-
-//}
-
 
 
