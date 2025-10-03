@@ -10,6 +10,15 @@ namespace HttpServerCustom.Server
 {
     public class ServerSide
     {
-       IPEndPoint iPEndPoint = new IPEndPoint(IPAddress.Any, 80);
+        public async void TcpServerFunction()
+        {
+            IPEndPoint ipEndPoint = new IPEndPoint(IPAddress.Any, 8888);
+            using Socket socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+            socket.Bind(ipEndPoint);
+            socket.Listen(1000);
+            using Socket client = await socket.AcceptAsync();
+            Console.WriteLine($"Adress of connected client:{client.RemoteEndPoint}");
+        }
     }
 }
+    
