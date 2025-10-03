@@ -18,6 +18,25 @@ namespace HttpServerCustom.Server
             socket.Listen(1000);
             using Socket client = await socket.AcceptAsync();
             Console.WriteLine($"Adress of connected client:{client.RemoteEndPoint}");
+
+            // 1. Getting request 
+            var getRequestBytes = new byte[512];
+            int received = await socket.ReceiveAsync(getRequestBytes);
+            string request = Encoding.UTF8.GetString(getRequestBytes, 0, received);
+            Console.WriteLine("=== Http Request ===");
+            Console.WriteLine(request);
+
+            //2. Forming response
+            string body = "<h1>Hello from custom HTTP server!</h1>";
+            string response = "HTTP/1.1 200 OK\r\n" + "Content-Type: text/html; charset=UTF-8\r\n" + $"Content-Length: {Encoding.UTF8.GetByteCount(body)}\r\n" + "\r\n" + body;
+
+            // Send response
+
+            byte[] sendResponse = Encoding.UTF8.GetBytes(response);
+            await socket.SendAsync(sendResponse);
+            socket.Shutdown(SocketShutdown.Both);
+
+
         }
     }
 }

@@ -2,8 +2,12 @@
 using System.Net.Sockets;
 using System.Text;
 
-var port = 80;
-var url = "www.google.com";
+
+ServerSide serverSide = new ServerSide();
+serverSide.TcpServerFunction();
+
+var port = 8888;
+var url = "127.0.0.1";
 
 using Socket tcpSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
 try
@@ -33,4 +37,3 @@ catch(SocketException ex)
 {
     Console.WriteLine($"{ex.Message}");
 }
-
