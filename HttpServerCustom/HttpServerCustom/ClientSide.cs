@@ -10,9 +10,10 @@ serverSide.TcpServerFunction();
 var port = 8888;
 var url = "127.0.0.1";
 var response = await SocketSendRecieve(url, port);
+Console.WriteLine(response);
 
 
-async Task<Socket?> ConnectSocketAsync(url, port)
+async Task<Socket?> ConnectSocketAsync(string url,  int port)
 {
   Socket tcpSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
     try
