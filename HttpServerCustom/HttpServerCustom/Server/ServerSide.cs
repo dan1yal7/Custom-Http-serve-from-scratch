@@ -24,7 +24,7 @@ namespace HttpServerCustom.Server
             int received = await socket.ReceiveAsync(getRequestBytes);
             string request = Encoding.UTF8.GetString(getRequestBytes, 0, received);
             Console.WriteLine("=== Http Request ===");
-            Console.WriteLine(request);
+            Console.WriteLine(request);     
 
             //2. Forming response
             string body = "<h1>Hello from custom HTTP server!</h1>";
