@@ -31,12 +31,9 @@ namespace HttpServerCustom.Server
             string response = "HTTP/1.1 200 OK\r\n" + "Content-Type: text/html; charset=UTF-8\r\n" + $"Content-Length: {Encoding.UTF8.GetByteCount(body)}\r\n" + "\r\n" + body;
 
             // Send response
-
             byte[] sendResponse = Encoding.UTF8.GetBytes(response);
             await client.SendAsync(sendResponse,SocketFlags.None);
             client.Shutdown(SocketShutdown.Both);
-
-
         }
     }
 }

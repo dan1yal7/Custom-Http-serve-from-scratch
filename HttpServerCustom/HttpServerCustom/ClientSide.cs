@@ -40,10 +40,10 @@ async Task<string> SocketSendRecieve(string url, int port)
     var message = $"GET / HTTP/1.1\r\nHost: {url}\r\nConnection: close\r\n\r\n";
     var messageBytes = Encoding.UTF8.GetBytes(message);
     await socket.SendAsync(messageBytes);
-
     socket.Shutdown(SocketShutdown.Send);
+    
+    //buffer for recieving data 
     var responseBytes = new byte[512];
-
     var builder = new StringBuilder();
     int bytes;
     do
@@ -54,5 +54,4 @@ async Task<string> SocketSendRecieve(string url, int port)
     }
     while (bytes > 0);
     return builder.ToString();
-
 }
