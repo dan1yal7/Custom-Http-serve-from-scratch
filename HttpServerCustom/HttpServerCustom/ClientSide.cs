@@ -1,18 +1,13 @@
 ﻿using HttpServerCustom.Server;
 using System.Net.Sockets;
 using System.Text;
-using System.Threading.Channels;
-
-
 
 ServerSide serverSide = new ServerSide();
 serverSide.TcpServerFunction();
-
 var port = 8888;
 var url = "127.0.0.1";
 var response = await SocketSendRecieve(url, port);
 Console.WriteLine(response);
-
 
 async Task<Socket?> ConnectSocketAsync(string url,  int port)
 {
@@ -29,7 +24,6 @@ async Task<Socket?> ConnectSocketAsync(string url,  int port)
     }
     return null;
 }
-
 async Task<string> SocketSendRecieve(string url, int port)
 {
     using Socket? socket = await ConnectSocketAsync(url, port);
