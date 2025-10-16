@@ -10,10 +10,6 @@ namespace Tests
         [Fact]
         public async Task TcpServerFunc()
         {
-            //Arrange 
-            var mock = new Mock<Socket>();
-            var clientSide = new ServerSide();
-
         }
     }
 }
