@@ -1,6 +1,7 @@
 ﻿using HttpServerCustom.Server;
 using Moq;
 using System.Net.Sockets;
+using Tests.SocketWrapper;
 using Xunit;
 
 namespace Tests
@@ -10,6 +11,7 @@ namespace Tests
         [Fact]
         public async Task TcpServerFunc()
         {
+            var mock = new Mock<ISocketWrapper>();
 
         }
     }

@@ -8,14 +8,15 @@ using System.Threading.Tasks;
 
 namespace Tests.SocketWrapper
 {
-    public interface SocketWrapper
+    public interface ISocketWrapper
     {
         void CreateAndListen(int port);
         string ReceiveData(); 
         void SendData(string data);
+        void Close();
     }
 
-    public class Wrapper : SocketWrapper
+    public class Wrapper : ISocketWrapper
     {
         public void CreateAndListen(int port)
         {
@@ -33,12 +34,26 @@ namespace Tests.SocketWrapper
             }
         }
 
+        private StreamReader? input;
         public string ReceiveData()
-        {
-            throw new NotImplementedException();
+        {   
+            try
+            {
+                return input!.ReadLine() ?? ("");
+            }
+            catch(IOException)
+            {
+                throw new SocketException();
+            }
         }
 
+        private StreamWriter? output;
         public void SendData(string data)
+        {
+            output!.WriteLine(data);
+        }
+
+        public void Close()
         {
             throw new NotImplementedException();
         }
