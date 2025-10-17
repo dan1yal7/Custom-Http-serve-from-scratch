@@ -17,7 +17,9 @@ namespace Tests.SocketWrapper
     }
 
     public class Wrapper : ISocketWrapper
-    {
+    { 
+
+
         public void CreateAndListen(int port)
         {
             try
@@ -28,7 +30,7 @@ namespace Tests.SocketWrapper
                 socket.Listen(1000);
                 using Socket client = socket.Accept();
             }
-            catch(SocketException ex)
+            catch (SocketException ex)
             {
                 Console.WriteLine(ex.Message);
             }
@@ -41,7 +43,7 @@ namespace Tests.SocketWrapper
             {
                 return input!.ReadLine() ?? ("");
             }
-            catch(IOException)
+            catch (IOException)
             {
                 throw new SocketException();
             }
@@ -55,7 +57,18 @@ namespace Tests.SocketWrapper
 
         public void Close()
         {
-            throw new NotImplementedException();
+            using Socket socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+            try
+            { 
+                output?.Close(); 
+                input?.Close();
+                socket?.Close();
+                
+            }
+            catch (IOException)
+            {
+                throw new SocketException();
+            }
         }
     }
 }
