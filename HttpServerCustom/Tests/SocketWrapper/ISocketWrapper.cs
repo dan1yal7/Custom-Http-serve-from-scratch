@@ -18,8 +18,6 @@ namespace Tests.SocketWrapper
 
     public class Wrapper : ISocketWrapper
     { 
-
-
         public void CreateAndListen(int port)
         {
             try
@@ -29,6 +27,7 @@ namespace Tests.SocketWrapper
                 socket.Bind(iPEndPoint);
                 socket.Listen(1000);
                 using Socket client = socket.Accept();
+                Console.WriteLine($"Adress of connected client:{client.RemoteEndPoint}");
             }
             catch (SocketException ex)
             {
