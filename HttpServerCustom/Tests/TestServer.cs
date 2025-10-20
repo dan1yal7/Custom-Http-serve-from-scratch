@@ -24,7 +24,6 @@ namespace Tests
             //Assert 
             mock.Verify(cl => cl.CreateAndListen(), Times.Once);
             Assert.NotNull(mock.Object);
-
         }
 
         [Fact]
@@ -41,7 +40,6 @@ namespace Tests
 
             //Assert
             mock.Verify(s => s.SendData(dataSend), Times.Once);
-
         }
 
         [Fact]
@@ -57,8 +55,7 @@ namespace Tests
              string processedData = wrapperServ.GetData();
 
             //Assert
-            Assert.Equal("=== Http Request ===", processedData);
-            
+            Assert.Equal("=== Http Request ===", processedData); 
         }
     }
 }
