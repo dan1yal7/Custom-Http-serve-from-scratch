@@ -11,22 +11,27 @@ namespace Tests.SocketWrapper
     public interface ISocketWrapper
     {
         void CreateAndListen(int port);
-        string ReceiveData(); 
-        void SendData(string data);
+        string ReceiveData(int bufferSize); 
+        void SendData(byte[] data);
         void Close();
     }
 
     public class Wrapper : ISocketWrapper
-    { 
+    {  
+        private Socket _socket;
+        
+        public Wrapper()
+        {
+            _socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+        }
         public void CreateAndListen(int port)
         {
             try
             {
-                IPEndPoint iPEndPoint = new IPEndPoint(IPAddress.Any, 8888);
-                using Socket socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-                socket.Bind(iPEndPoint);
-                socket.Listen(1000);
-                using Socket client = socket.Accept();
+                IPEndPoint iPEndPoint = new IPEndPoint(IPAddress.Any, 8888);                
+                _socket.Bind(iPEndPoint);
+                _socket.Listen(1000);
+                using Socket client = _socket.Accept();
                 Console.WriteLine($"Adress of connected client:{client.RemoteEndPoint}");
             }
             catch (SocketException ex)
@@ -35,39 +40,30 @@ namespace Tests.SocketWrapper
             }
         }
 
-        private StreamReader? input;
-        public string ReceiveData()
+        public string ReceiveData(int bufferSize)
         {   
             try
             {
-                return input!.ReadLine() ?? ("");
+                var getRequestBytes = new byte[bufferSize];
+                int received = _socket.Receive(getRequestBytes);
+                string request = Encoding.UTF8.GetString(getRequestBytes, 0, received);
+                return request;
             }
-            catch (IOException)
+            catch (SocketException ex)
             {
-                throw new SocketException();
+                Console.WriteLine(ex.Message);
+                return ex.Message;
             }
         }
-
-        private StreamWriter? output;
-        public void SendData(string data)
+ 
+        public void SendData(byte[] data)
         {
-            output!.WriteLine(data);
+           _socket.Send(data);
         }
 
         public void Close()
         {
-            using Socket socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-            try
-            { 
-                output?.Close(); 
-                input?.Close();
-                socket?.Close();
-                
-            }
-            catch (IOException)
-            {
-                throw new SocketException();
-            }
+            _socket.Close();
         }
     }
 }
