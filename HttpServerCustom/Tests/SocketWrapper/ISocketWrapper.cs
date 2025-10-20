@@ -10,7 +10,7 @@ namespace Tests.SocketWrapper
 {
     public interface ISocketWrapper
     {
-        void CreateAndListen(int port);
+        void CreateAndListen();
         byte[] ReceiveData(int bufferSize); 
         void SendData(byte[] data);
         void Close();
@@ -24,7 +24,7 @@ namespace Tests.SocketWrapper
         {
             _socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
         }
-        public void CreateAndListen(int port)
+        public void CreateAndListen()
         {
             try
             {

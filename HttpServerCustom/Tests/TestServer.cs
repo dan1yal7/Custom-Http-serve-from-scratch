@@ -10,10 +10,18 @@ namespace Tests
     {
         [Fact]
         public void TcpServerCreateAndListen()
-        {
+        { 
+            //Arrange
             var mock = new Mock<ISocketWrapper>();
-            int port = 1234;
-            mock.Setup(s => s.CreateAndListen(port));
+            var wrapperServ = new WrapperService(mock.Object);
+            mock.Setup(cl => cl.CreateAndListen());
+
+            //Act 
+             wrapperServ.EstablishListenerAndAcceptence();
+
+            //Assert 
+            mock.Verify(cl => cl.CreateAndListen(), Times.Once);
+            Assert.NotNull(mock.Object);
 
         }
     }

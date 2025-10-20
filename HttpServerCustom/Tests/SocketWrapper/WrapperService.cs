@@ -14,9 +14,9 @@ namespace Tests.SocketWrapper
             _socketWrapper = socketWrapper;
         }
 
-        public void EstablishListenerAndAcceptence(int port)
+        public void EstablishListenerAndAcceptence()
         {
-            _socketWrapper.CreateAndListen(port);
+            _socketWrapper.CreateAndListen();
         }
 
         public void SendData(byte[] data)
