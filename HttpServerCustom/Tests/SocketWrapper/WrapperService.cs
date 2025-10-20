@@ -19,7 +19,7 @@ namespace Tests.SocketWrapper
             _socketWrapper.CreateAndListen();
         }
 
-        public void SendData(byte[] data)
+        public void SendDta(byte[] data)
         {
             _socketWrapper.SendData(data);
         }
