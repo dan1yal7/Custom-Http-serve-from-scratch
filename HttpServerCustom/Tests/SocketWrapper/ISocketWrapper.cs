@@ -11,7 +11,7 @@ namespace Tests.SocketWrapper
     public interface ISocketWrapper
     {
         void CreateAndListen(int port);
-        string ReceiveData(int bufferSize); 
+        byte[] ReceiveData(int bufferSize); 
         void SendData(byte[] data);
         void Close();
     }
@@ -40,20 +40,12 @@ namespace Tests.SocketWrapper
             }
         }
 
-        public string ReceiveData(int bufferSize)
-        {   
-            try
-            {
-                var getRequestBytes = new byte[bufferSize];
-                int received = _socket.Receive(getRequestBytes);
-                string request = Encoding.UTF8.GetString(getRequestBytes, 0, received);
-                return request;
-            }
-            catch (SocketException ex)
-            {
-                Console.WriteLine(ex.Message);
-                return ex.Message;
-            }
+        public byte[] ReceiveData(int bufferSize)
+        {
+            var getRequestBytes = new byte[bufferSize];
+            int received = _socket.Receive(getRequestBytes);
+            string request = Encoding.UTF8.GetString(getRequestBytes, 0, received);
+            return getRequestBytes;
         }
  
         public void SendData(byte[] data)

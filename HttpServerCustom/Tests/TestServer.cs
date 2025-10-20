@@ -11,7 +11,10 @@ namespace Tests
         [Fact]
         public void TcpServerCreateAndListen()
         {
-          
+            var mock = new Mock<ISocketWrapper>();
+            int port = 1234;
+            mock.Setup(s => s.CreateAndListen(port));
+
         }
     }
 }
