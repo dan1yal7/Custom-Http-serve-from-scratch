@@ -57,5 +57,11 @@ namespace Tests
             //Assert
             Assert.Equal("=== Http Request ===", processedData); 
         }
+
+        [Fact]
+        public void TcpServerClose()
+        {
+
+        }
     }
 }

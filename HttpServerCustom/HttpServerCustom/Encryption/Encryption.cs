@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace HttpServerCustom.Encryption
 {
-    internal class Encryption
+    public class Encryption
     {
+
     }
 }
