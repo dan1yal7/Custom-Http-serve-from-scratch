@@ -23,7 +23,7 @@ namespace Tests
 
             //Assert 
             mock.Verify(cl => cl.CreateAndListen(), Times.Once);
-            Assert.NotNull(mock.Object);
+            Assert.NotNull(wrapperServ);
         }
 
         [Fact]
@@ -61,7 +61,17 @@ namespace Tests
         [Fact]
         public void TcpServerClose()
         {
+            //Arrange
+            var mock = new Mock<ISocketWrapper>();
+            var wrapperServ = new WrapperService(mock.Object); 
+            mock.Setup(c => c.Close());
 
+            //Act
+            wrapperServ.Close();
+
+            //Assert 
+            mock.Verify(c => c.Close(), Times.Once);
+            Assert.NotNull(wrapperServ);
         }
     }
 }

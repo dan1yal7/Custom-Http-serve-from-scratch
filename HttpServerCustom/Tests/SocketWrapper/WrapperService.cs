@@ -29,6 +29,11 @@ namespace Tests.SocketWrapper
             byte[] data = _socketWrapper.ReceiveData(1024);
             return Encoding.UTF8.GetString(data);
         }
+
+        public void Close()
+        {
+            _socketWrapper.Close();
+        }
     }
 
 }
