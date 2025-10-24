@@ -39,7 +39,6 @@ namespace Tests.SocketWrapper
                 Console.WriteLine(ex.Message);
             }
         }
-
         public byte[] ReceiveData(int bufferSize)
         {
             var getRequestBytes = new byte[bufferSize];
