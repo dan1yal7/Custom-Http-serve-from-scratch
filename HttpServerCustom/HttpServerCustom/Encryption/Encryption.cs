@@ -8,6 +8,8 @@ namespace HttpServerCustom.Encryption
 {
     public class Encryption
     {
+        // PublicKey   --     Encryption 
+        // PrivateKey  --     Encryption
 
     }
 }
