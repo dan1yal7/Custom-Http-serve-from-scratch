@@ -6,10 +6,8 @@ using System.Threading.Tasks;
 
 namespace HttpServerCustom.Encryption
 {
-    public class Encryption
+    public class ClientEncryption
     {
-        // PublicKey   --     Encryption 
-        // PrivateKey  --     Encryption
-
+       
     }
 }
