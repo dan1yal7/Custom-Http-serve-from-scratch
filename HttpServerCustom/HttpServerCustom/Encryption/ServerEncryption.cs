@@ -8,19 +8,21 @@ using System.Threading.Tasks;
 
 namespace HttpServerCustom.Encryption
 {
-    public   class ServerEncryption
+    public class ServerEncryption
     {
-        private readonly ServerSide _serverside; 
+        private readonly ServerSide _serverside;
         public ServerEncryption(ServerSide serverside)
         {
             _serverside = serverside;
         }
-        static X509Certificate servercertificate = null; 
+        static X509Certificate servercertificate = null;
 
-        public static void RunServer(string certificate)
+        public void RunServer(string certificate)
         {
             servercertificate = X509Certificate.CreateFromCertFile(certificate);
-
+            _serverside.TcpServerFunction();
         }
+
+
     }
 }
