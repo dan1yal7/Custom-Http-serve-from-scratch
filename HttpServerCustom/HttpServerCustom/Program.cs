@@ -8,6 +8,9 @@ _ = Task.Run(server.TcpServerFunction);
 await Task.Delay(1000);
 
 var client = new ClientSide();
-string response = await client.SocketSendRecieve("127.0.0.1", 8888);
+
+var port = 8888;
+var url = "127.0.0.1";
+string response = await client.SocketSendRecieve(url, port);
 Console.WriteLine(response);
 Console.ReadLine();

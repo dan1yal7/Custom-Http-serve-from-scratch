@@ -5,6 +5,7 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using System.Net.Sockets;
+using Serilog;
 
 namespace HttpServerCustom.Server
 {
@@ -22,10 +23,17 @@ namespace HttpServerCustom.Server
 
             // 1. Getting request 
             var getRequestBytes = new byte[512];
-            int received = await _socket.ReceiveAsync(getRequestBytes, SocketFlags.None);
-            string request = Encoding.UTF8.GetString(getRequestBytes, 0, received);
-            Console.WriteLine("=== Http Request ===");
-            Console.WriteLine(request);
+            try
+            {
+                int received = await _socket.ReceiveAsync(getRequestBytes, SocketFlags.None);
+                string request = Encoding.UTF8.GetString(getRequestBytes, 0, received);
+                Console.WriteLine("=== Http Request ===");
+                Console.WriteLine(request);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex.Message);
+            }
 
             //2. Forming response
             string body = "<h1>Hello from custom HTTP server!</h1>";

@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace HttpServerCustom.Client
-{
+{ 
     public class ClientSide
     {
         async Task<Socket?> ConnectSocketAsync(string url, int port)
