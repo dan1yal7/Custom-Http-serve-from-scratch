@@ -23,17 +23,10 @@ namespace HttpServerCustom.Server
 
             // 1. Getting request 
             var getRequestBytes = new byte[512];
-            try
-            {
-                int received = await _socket.ReceiveAsync(getRequestBytes, SocketFlags.None);
-                string request = Encoding.UTF8.GetString(getRequestBytes, 0, received);
-                Console.WriteLine("=== Http Request ===");
-                Console.WriteLine(request);
-            }
-            catch (Exception ex)
-            {
-                Log.Error(ex.Message);
-            }
+            int received = await client.ReceiveAsync(getRequestBytes, SocketFlags.None);
+            string request = Encoding.UTF8.GetString(getRequestBytes, 0, received);
+            Console.WriteLine("=== Http Request ===");
+            Console.WriteLine(request);
 
             //2. Forming response
             string body = "<h1>Hello from custom HTTP server!</h1>";
@@ -41,8 +34,8 @@ namespace HttpServerCustom.Server
 
             // Send response
             byte[] sendResponse = Encoding.UTF8.GetBytes(response);
-            await _socket.SendAsync(sendResponse, SocketFlags.None);
-            _socket.Shutdown(SocketShutdown.Both);
+            await client.SendAsync(sendResponse, SocketFlags.None);
+            client.Shutdown(SocketShutdown.Both);
 
         }
         
