@@ -10,7 +10,7 @@ namespace HttpServerCustom.Client
 { 
     public class ClientSide
     {
-        async Task<Socket?> ConnectSocketAsync(string url, int port)
+        public async Task<Socket?> ConnectSocketAsync(string url, int port)
         { 
             Socket tcpSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
             try

@@ -1,9 +1,12 @@
 ﻿using HttpServerCustom.Client;
+using HttpServerCustom.Encryption;
 using HttpServerCustom.Server;
 using System.Net.Sockets;
 
 var server = new ServerSide();
 _ = Task.Run(server.TcpServerFunction);
+
+//ServerEncryption serverEncryption = new ServerEncryption();
 
 await Task.Delay(1000);
 
