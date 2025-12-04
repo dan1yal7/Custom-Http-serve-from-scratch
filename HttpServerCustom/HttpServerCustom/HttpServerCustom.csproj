@@ -9,6 +9,16 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="server.pfx" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="server.pfx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Serilog" Version="4.3.0" />
   </ItemGroup>
 
