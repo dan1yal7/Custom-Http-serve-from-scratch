@@ -59,7 +59,7 @@ namespace HttpServerCustom.Server
                 int received = await sslStream.ReadAsync(buffer, 0, buffer.Length);
                 string request = Encoding.UTF8.GetString(buffer, 0, received);
 
-                Console.WriteLine("===HTTP Request over SSL");
+                Console.WriteLine("===HTTP Request over SSL===");
                 Console.WriteLine(request);
 
                 //Forming Response

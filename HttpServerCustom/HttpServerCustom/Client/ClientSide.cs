@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Security;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
@@ -32,23 +33,25 @@ namespace HttpServerCustom.Client
             {
                 return $"Connection could not be established with {url}";
             }
+            using var netStream = new NetworkStream(socket, ownsSocket: true);
+            using var sslStream = new SslStream(netStream, false, (sender, cert, cahin, errors) => true);
+            await sslStream.AuthenticateAsClientAsync(url);
+
             var message = $"GET / HTTP/1.1\r\nHost: {url}\r\nConnection: close\r\n\r\n";
             var messageBytes = Encoding.UTF8.GetBytes(message);
-            await socket.SendAsync(messageBytes);
-            socket.Shutdown(SocketShutdown.Send);
+            await sslStream.WriteAsync(messageBytes, 0, message.Length);
+            await sslStream.FlushAsync();
 
             //buffer for recieving data 
-            var responseBytes = new byte[512];
+            byte[] responseBytes = new byte[512];
             var builder = new StringBuilder();
             int bytes;
-            do
+            while ((bytes = await sslStream.ReadAsync(responseBytes, 0, responseBytes.Length)) > 0)
             {
-                bytes = await socket.ReceiveAsync(responseBytes);
-                string response = Encoding.UTF8.GetString(responseBytes, 0, bytes);
-                builder.Append(response);
+                builder.Append(Encoding.UTF8.GetString(responseBytes, 0, bytes));
             }
-            while (bytes > 0);
+            
             return builder.ToString();
-       }
+        }
     }
 }
